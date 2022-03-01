@@ -1,0 +1,14 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<form action="{% url 'newListing' %}" method='POST'>
+    {% csrf_token %}
+    <ul style="list-style-type: none;">
+        {% for i in form%}
+        <li> {{ i.label_tag }} {{ i }}</li>
+    {% endfor %}
+    </ul>
+    <input class = "form-control" type="submit" value='Create'>
+    
+</form>
+{% endblock %}

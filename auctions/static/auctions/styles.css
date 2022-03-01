@@ -1,3 +1,48 @@
 body {
     padding: 10px;
 }
+#container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+}
+
+#container > div {
+    background-color: white;
+    font-size: 20px;
+    margin: 20px;
+    padding: 20px;
+    width: 200px;
+    height: 350px;
+    
+}
+.imgpl {
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+}
+.card {
+    text-align: center;
+    position: relative;
+}
+
+.btn {
+    max-height: 40px;
+    text-align: center;
+    position: absolute;
+    right:   0;
+    left: 0;
+    bottom:  0;
+} 
+.center {
+    position: absolute;
+    right:   0;
+    left: 0;
+    bottom:  45px;
+}
+.card-subtitle {
+    bottom:  30px;
+}
+
