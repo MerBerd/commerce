@@ -1,12 +1,16 @@
 from django import forms
 from django.forms import widgets
 
-from .models import Category, Bids, Comment, Listings
+from .models import Category,Listings
 
 class NewListingForm(forms.ModelForm):
     class Meta:
         model = Listings
         fields = ['Title', 'Description', 'StartPrice', 'Photo', 'Category']
         widgets = {
-            'Description':widgets.Textarea(attrs={'cols' : 80, 'rows' : 20, 'class' : 'form-control'}),
+            'Title': forms.TextInput(attrs={'class': 'form-control'}),
+            'Description':widgets.Textarea(attrs={'cols' : 60, 'rows' : 10, 'class' : 'form-control'}),
+            'StartPrice': forms.NumberInput(attrs={'class': 'form-control'}),
+            'Photo': forms.URLInput(attrs={'class': 'form-control'}),
+            'Category': widgets.Select(attrs={'calss': 'form-control'})
         }

@@ -85,4 +85,31 @@ def newListing(request):
             "form" : form
         })
 
+def listing(request, listing_id):
+    listing = Listings.objects.get(pk=listing_id)
+    user = request.user
+    sth = user == Listings.Author
+    return render(request, "auctions/listing.html", {
+            "listing" : listing,
+            "sth" : sth
+        })
     
+
+def watchlist(request):
+    listings = request.user.Watchlist.all()
+    return render(request, "auctions/watchlist.html", {
+        'listings' : listings
+    })
+
+def listingChange(request, listing_id):
+    listing = Listings.objects.get(pk=listing_id)
+    request.user.Watchlist.add(listing)
+
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+def removeWatchlist(request, listing_id):
+    user = request.user
+    listing = Listings.objects.get(pk=listing_id)
+    user.Watchlist.remove(listing)
+
+    return HttpResponseRedirect(reverse("watchlist"))

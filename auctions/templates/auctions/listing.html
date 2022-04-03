@@ -1,0 +1,43 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container-lg pt-2 pb-3">
+    
+    <!--Image and Price section-->
+    <div class="row mt-2 align-items-center">
+        
+        <!-- Image -->
+        <div class="col-md-6 col-12 d-flex">
+            <img style="max-height: 450px;" class="img-fluid mx-auto" src="{% if listing.Photo %}{{ listing.Photo }}{% else %}http://www.aaru.edu.jo/websites/aaru2/wp-content/plugins/learnpress/assets/images/no-image.png?Mobile=1&Source=%2F%5Flayouts%2Fmobile%2Fdispform%2Easpx%3FList%3D78b536db%252De7c7%252D45d9%252Da661%252Ddb2a2aa2fbaf%26View%3D6efc759a%252D0646%252D433c%252Dab6e%252D2f027ffe0799%26RootFolder%3D%252Fwebsites%252Faaru2%252Fwp%252Dcontent%252Fplugins%252Flearnpress%252Fassets%252Fimages%26ID%3D4786%26CurrentPage%3D1{% endif %}" alt="Photo of {{ book.Title }}">
+        </div>
+
+     
+        <div class="col-md-6 col-12 border align-self-center pt-4 px-4">
+            
+            <!-- Watchlist -->
+            {% if user.is_authenticated %}
+                <div class="text-right pb-3">
+                    <button style="background-color: blue;color:white; border-color: white; border-radius: 10px;"><a href="{% url 'listingChange' listing.id %}"><i class="fa-solid fa-basket-shopping"></i>В корзину</a></button>
+                           
+                </div>
+           
+
+          
+            <h3 class="m-0 pb-3">{{ listing.Title }}</h3>
+            <p class="my-1 pb-3">
+                <small><em>"{{listing.Description}}"</em></small>
+            </p>
+        
+            
+            <!-- Bid section -->
+            <div class="text-center my-4">
+                <h5 class="pt-2">
+                   <strong>{{listing.StartPrice}} ₽</strong>
+                </h5>
+
+            </div>  
+            {% endif %}
+            </div>
+        </div>
+    
+{% endblock %}

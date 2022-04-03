@@ -37,14 +37,25 @@ class Listings(models.Model):
     def winner(self):
         pass
     
-    
+class Bid(models.Model):
+    Listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="Bids")
+    User = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Bids")
+    Amount = models.DecimalField(max_digits=6, decimal_places=2)
 
-
-class Bids(models.Model):
-    Listings = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name='Bids')
-    
+    def __str__(self):
+        return str(self.Amount)
 
 class Comment(models.Model):
-    pass
+    Listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="Comments")
+    User = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Comments")
+    Text = models.CharField(max_length=5000)
+    PostedTime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.comment)
+    
+
+
+
 
 

@@ -46,3 +46,24 @@ body {
     bottom:  30px;
 }
 
+.formdiv
+{
+    text-align: center; 
+    margin:0 auto;
+}
+
+.formdiv > form
+{
+    display: inline-block;
+}
+
+.f-c{
+    background-color: green;
+    color: white;
+}
+
+.f-c:hover{
+    background-color: white;
+    color: green
+}
+

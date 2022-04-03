@@ -1,14 +1,17 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<h2 style="text-align: center;">New Listing</h2>
+<div class="formdiv">
 <form action="{% url 'newListing' %}" method='POST'>
     {% csrf_token %}
     <ul style="list-style-type: none;">
         {% for i in form%}
-        <li> {{ i.label_tag }} {{ i }}</li>
+        <div class="form-group">{{ i.label_tag }} {{ i }}</li></div> 
     {% endfor %}
     </ul>
-    <input class = "form-control" type="submit" value='Create'>
+    <input class = "f-c form-control" type="submit" value='Create'>
     
 </form>
+</div>
 {% endblock %}
