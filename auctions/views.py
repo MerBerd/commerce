@@ -68,7 +68,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-@login_required
+@login_required(login_url='login')
 def newListing(request):
     if request.method == "POST":
         form = NewListingForm(request.POST)
@@ -89,7 +89,10 @@ def newListing(request):
 def listing(request, listing_id):
     listing = Listings.objects.get(pk=listing_id)
     user = request.user
-    inList = listing.inList(user)
+    if user.is_authenticated:
+        inList = listing.inList(user)
+    else:
+        inList = False
     sth = user == Listings.Author
     return render(request, "auctions/listing.html", {
             "listing" : listing,
@@ -97,12 +100,13 @@ def listing(request, listing_id):
             "sth" : sth
         })
     
-
+@login_required(login_url='login')
 def watchlist(request):
     listings = request.user.Watchlist.all()
     return render(request, "auctions/watchlist.html", {
         'listings' : listings
     })
+
 
 def listingChange(request, listing_id):
     listing = Listings.objects.get(pk=listing_id)
