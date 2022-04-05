@@ -1,3 +1,4 @@
+from this import d
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.deletion import CASCADE
@@ -28,6 +29,11 @@ class Listings(models.Model):
     WatchedBy = models.ManyToManyField(User, blank=True, related_name='Watchlist')
     Active = models.BooleanField(default=True)
 
+    def inList(self, user):
+        #return self.objects.filter(WatchedBy=user).exists()
+        #return user.Watchlist.filter(pk=self.)
+        return user.Watchlist.filter(pk=self.pk).exists()
+
     def numOfBids(self):
         pass
 
@@ -36,6 +42,9 @@ class Listings(models.Model):
 
     def winner(self):
         pass
+    
+    def __str__(self):
+        return f"{self.Title}"
     
 class Bid(models.Model):
     Listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="Bids")

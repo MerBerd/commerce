@@ -16,13 +16,7 @@
             
             <!-- Watchlist -->
             {% if user.is_authenticated %}
-                <div class="text-right pb-3">
-                    <button style="background-color: blue;color:white; border-color: white; border-radius: 10px;"><a href="{% url 'listingChange' listing.id %}"><i class="fa-solid fa-basket-shopping"></i>В корзину</a></button>
-                           
-                </div>
-           
-
-          
+               
             <h3 class="m-0 pb-3">{{ listing.Title }}</h3>
             <p class="my-1 pb-3">
                 <small><em>"{{listing.Description}}"</em></small>
@@ -34,8 +28,12 @@
                 <h5 class="pt-2">
                    <strong>{{listing.StartPrice}} ₽</strong>
                 </h5>
-
             </div>  
+            {% if inList %}
+            <button type="button" class="btn btn-primary"><a style="text-decoration: none; color:white" href="{% url 'listingChange' listing.id %}">- Watchlist</a></button> 
+            {% else %}
+            <button type="button" class="btn btn-primary"><a style="text-decoration: none; color:white" href="{% url 'listingChange' listing.id %}">+ Watchlist</a></button> 
+            {% endif %}
             {% endif %}
             </div>
         </div>

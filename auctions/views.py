@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -88,9 +89,11 @@ def newListing(request):
 def listing(request, listing_id):
     listing = Listings.objects.get(pk=listing_id)
     user = request.user
+    inList = listing.inList(user)
     sth = user == Listings.Author
     return render(request, "auctions/listing.html", {
             "listing" : listing,
+            "inList" : inList,
             "sth" : sth
         })
     
@@ -103,8 +106,14 @@ def watchlist(request):
 
 def listingChange(request, listing_id):
     listing = Listings.objects.get(pk=listing_id)
-    request.user.Watchlist.add(listing)
+    inList = listing.inList(request.user)
+    if inList:
+        request.user.Watchlist.remove(listing)
+    else:
+        request.user.Watchlist.add(listing)
 
+
+    
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 def removeWatchlist(request, listing_id):
