@@ -67,3 +67,17 @@ body {
     color: green
 }
 
+#container1 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#container1 > a {
+    background-color: white;
+    font-size: 20px;
+    margin: 20px;
+    padding: 20px;
+    width: 20px;
+    text-align: center;
+}
+
