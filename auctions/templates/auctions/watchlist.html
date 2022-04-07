@@ -7,7 +7,7 @@
     <div class="container-fluid">
             
         {% for listing in listings %}
-            <a href="#" class="text-decoration-none text-dark">
+            <a href="{% url 'listing' listing.id %}" class="text-decoration-none text-dark">
                 <div class="row mb-3 watchlist border-bottom mx-auto">
                     <div class="media mb-3">
                         <div class="d-flex flex-column" style="width:100px">

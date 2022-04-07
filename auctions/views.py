@@ -6,8 +6,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import User, Listings
-from .forms import NewListingForm
+from .models import User, Listings, Comment
+from .forms import NewListingForm, CommentForm
 
 
 def index(request):
@@ -88,6 +88,17 @@ def newListing(request):
 
 def listing(request, listing_id):
     listing = Listings.objects.get(pk=listing_id)
+    if request.method == "POST":
+        commentform = CommentForm(request.POST)
+        if commentform.is_valid():
+            commentform.instance.Listing = listing
+            commentform.instance.User = request.user
+            commentform.save()
+            return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+    
+    commentform = CommentForm()
+    comments = Comment.objects.filter(Listing = listing)
     user = request.user
     if user.is_authenticated:
         inList = listing.inList(user)
@@ -97,7 +108,9 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html", {
             "listing" : listing,
             "inList" : inList,
-            "sth" : sth
+            "sth" : sth, 
+            "comments" : comments,
+            "commentform" : commentform
         })
     
 @login_required(login_url='login')

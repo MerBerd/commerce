@@ -30,8 +30,6 @@ class Listings(models.Model):
     Active = models.BooleanField(default=True)
 
     def inList(self, user):
-        #return self.objects.filter(WatchedBy=user).exists()
-        #return user.Watchlist.filter(pk=self.)
         return user.Watchlist.filter(pk=self.pk).exists()
 
     def numOfBids(self):
