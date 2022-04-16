@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import CharField
 from django.db.models.fields.related import ForeignKey
+from django.db.models import Max
 
 
 class User(AbstractUser):
@@ -33,13 +34,19 @@ class Listings(models.Model):
         return user.Watchlist.filter(pk=self.pk).exists()
 
     def numOfBids(self):
-        pass
+        return self.Bids.all().count()
 
     def currentPrice(self):
-        pass
+        if self.numOfBids():
+            return self.Bids.all().aggregate(Max('Amount'))['Amount__max']
+        else:
+            return self.StartPrice
 
     def winner(self):
-        pass
+        if self.numOfBids():
+            return self.Bids.get(Amount=self.currentPrice()).User
+        else:
+            return None
     
     def __str__(self):
         return f"{self.Title}"
@@ -55,7 +62,7 @@ class Bid(models.Model):
 class Comment(models.Model):
     Listing = models.ForeignKey(Listings, on_delete=models.CASCADE, related_name="Comments")
     User = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Comments")
-    Text = models.CharField(max_length=5000)
+    Comment = models.CharField(max_length=5000)
     PostedTime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

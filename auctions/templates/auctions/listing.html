@@ -7,6 +7,7 @@
     <div class="row mt-2 align-items-center">
         
         <!-- Image -->
+        
         <div class="col-md-6 col-12 d-flex">
             <img style="max-height: 450px;" class="img-fluid mx-auto" src="{% if listing.Photo %}{{ listing.Photo }}{% else %}http://www.aaru.edu.jo/websites/aaru2/wp-content/plugins/learnpress/assets/images/no-image.png?Mobile=1&Source=%2F%5Flayouts%2Fmobile%2Fdispform%2Easpx%3FList%3D78b536db%252De7c7%252D45d9%252Da661%252Ddb2a2aa2fbaf%26View%3D6efc759a%252D0646%252D433c%252Dab6e%252D2f027ffe0799%26RootFolder%3D%252Fwebsites%252Faaru2%252Fwp%252Dcontent%252Fplugins%252Flearnpress%252Fassets%252Fimages%26ID%3D4786%26CurrentPage%3D1{% endif %}" alt="Photo of {{ book.Title }}">
         </div>
@@ -14,48 +15,85 @@
      
         <div class="col-md-6 col-12 border align-self-center pt-4 px-4">
             
-            <!-- Watchlist -->
-            <!---->
+          
                
             <h3 class="m-0 pb-3">{{ listing.Title }}</h3>
             <p class="my-1 pb-3">
                 <small><em>"{{listing.Description}}"</em></small>
+               
             </p>
         
             
             <!-- Bid section -->
             <div class="text-center my-4">
                 <h5 class="pt-2">
-                   <strong>{{listing.StartPrice}} ₽</strong>
+                   <strong>{{listing.currentPrice}} $</strong>
                 </h5>
             </div>  
-            {% if user.is_authenticated %}
-            {% if inList %}
-            <button type="button" class="btn btn-primary"><a style="text-decoration: none; color:white" href="{% url 'listingChange' listing.id %}">- Watchlist</a></button> 
+            {% if listing.Active == False %}
+                <div class="alert alert-warning" role="alert">
+                    Bid is closed
+                </div>
+                {% if listing.Active == False and user == listing.winner%}
+                <div class="alert alert-success" role="alert">
+                    you won pal
+                  </div>
+                {% endif %}
+            {% elif listing.Author == request.user %}
+            <a style="text-decoration: none; color:black" href="{% url 'CloseBid' listing.id %}"><i class="fa-solid fa-circle-xmark"></i>Close</a>
             {% else %}
-            <button type="button" class="btn btn-primary"><a style="text-decoration: none; color:white" href="{% url 'listingChange' listing.id %}">+ Watchlist</a></button> 
-            {% endif %}
-            {% endif %}
-            </div>
-            {% if user.is_authenticated %}
-                <form action="{% url 'listing' listing.id %}" method='POST'>
+                {% if user.is_authenticated %}
+                {% if inList %}
+                <button type="button" class="btn btn-primary"><a style="text-decoration: none; color:white" href="{% url 'listingChange' listing.id %}">- Watchlist</a></button> 
+                {% else %}
+                <button type="button" class="btn btn-primary"><a style="text-decoration: none; color:white" href="{% url 'listingChange' listing.id %}">+ Watchlist</a></button> 
+                {% endif %}
+                
+                <div class="text-center my-5">
+                    <form action="{% url 'AddBid' listing.id %}" method='POST'>
                     {% csrf_token %}
                     <ul style="list-style-type: none;">
-                        {% for i in commentform%}
+                        {% for i in bidForm %}
                         <div class="form-group">{{ i.label_tag }} {{ i }}</li></div> 
-                    {% endfor %}
+                        {% endfor %}
                     </ul>
                     <input class = "form-control" type="submit" value='Add'>
-                </form>
+                </form></div>
+
+                {% endif %}
             {% endif %}
-                <div>
-            {% for comment in comments %}
-                <h2>{{ comment.User }}</h2>
-                <p>{{ comment.Text }}</p>
-                <small>{{ comment.PostedTime}}</small>
-                <p>_______________________________</p>
-            {% endfor %}
+        
+            </div>
+           
         </div>
+        <div class="formdiv">
+            {% if user.is_authenticated %}
+            <form action="{% url 'listing' listing.id %}" method='POST'>
+              {% csrf_token %}
+                <ul style="list-style-type: none;">
+                    {% for i in commentform %}
+                    <div class="form-group">{{ i.label_tag }} {{ i }}</li></div> 
+                {% endfor %}
+                </ul>
+                <input class = "form-control" style="text-align:center" type="submit" value='Add'>
+            </form>  
+        {% endif %}
         </div>
-    
+        <br>
+        {% for comment in comments %}
+            <div class="row"> 
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title"><small>posted by:</small> {{ comment.User }}</h4>
+                            <p class="card-text">{{ comment.Comment }}</p>
+                            <p class="card-text"> <small>{{ comment.PostedTime}}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+        
+    </div>
 {% endblock %}

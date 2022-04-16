@@ -5,9 +5,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-from .models import User, Listings, Comment
-from .forms import NewListingForm, CommentForm
+from .models import User, Listings, Comment, Category, Bid
+from .forms import NewListingForm, CommentForm, BidForm
 
 
 def index(request):
@@ -98,6 +99,7 @@ def listing(request, listing_id):
 
     
     commentform = CommentForm()
+    bidForm = BidForm()
     comments = Comment.objects.filter(Listing = listing)
     user = request.user
     if user.is_authenticated:
@@ -110,7 +112,8 @@ def listing(request, listing_id):
             "inList" : inList,
             "sth" : sth, 
             "comments" : comments,
-            "commentform" : commentform
+            "commentform" : commentform,
+            "bidForm" : bidForm
         })
     
 @login_required(login_url='login')
@@ -139,3 +142,52 @@ def removeWatchlist(request, listing_id):
     user.Watchlist.remove(listing)
 
     return HttpResponseRedirect(reverse("watchlist"))
+
+def category(request):
+    categories = Category.objects.all()
+    return render(request, "auctions/category.html", {"categories" : categories})
+
+def binder(request, category):
+    
+    category = Category.objects.get(name=category)
+
+    listings = Listings.objects.filter(Category=category)
+    return render(request, "auctions/index.html",{
+        "listings" : listings
+    })
+
+@login_required(login_url='login')
+def AddBid(request, listing_id):
+    listing = Listings.objects.get(pk=listing_id)
+    if request.method == "POST":
+        bidForm = BidForm(request.POST)
+        if bidForm.is_valid():
+            bidForm.instance.Listing = listing
+            bidForm.instance.User = request.user
+            if bidForm.instance.Amount > listing.currentPrice():
+                bidForm.save()
+                messages.success(request, 'Bid added')
+                return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+            else:
+                messages.error(request, 'place a bid higher than the current one')
+
+                return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+@login_required(login_url='login')
+def CloseBid(request, listing_id):
+    listing = Listings.objects.get(pk=listing_id)
+    listing.Active = False
+    listing.save()
+    messages.success(request, 'Bid closed')
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+    
+
+
+
+    
+   
+
+   
+    
+        
+

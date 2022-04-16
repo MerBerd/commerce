@@ -28,6 +28,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'category' %}">Category</a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
@@ -39,9 +42,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'register' %}">Register</a>
                 </li>
+
             {% endif %}
         </ul>
         <hr>
+        {% include 'auctions/includes/messages.html' %}
         {% block body %}
         {% endblock %}
     </body>

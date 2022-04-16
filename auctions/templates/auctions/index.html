@@ -8,7 +8,7 @@
         <a href="{% url 'listing' listing.id %}" class="text-decoration-none text-dark"><div class="card" style="width: 18rem;">
                 <img class="card-img-top imgpl" src="{{ listing.Photo }}" alt="Card image of {{ listing.Title }}">
                 <h5 class="card-title center">{{ listing.Title }}</h5>
-                <h6 class="center card-subtitle mb-2 text-muted">{{ listing.StartPrice }} $</h6>
+                <h6 class="center card-subtitle mb-2 text-muted">{{ listing.currentPrice }} $</h6>
                 <a href="#" class="btn btn-primary">to watchlist</a>
             </div></a>
         {% endif %}
