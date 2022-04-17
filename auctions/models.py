@@ -16,9 +16,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
-
-
 class Listings(models.Model):
     Title = models.CharField(max_length=64)
     Description = models.CharField(max_length=400)
@@ -66,7 +63,7 @@ class Comment(models.Model):
     PostedTime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.comment)
+        return str(self.Comment)
     
 
 

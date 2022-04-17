@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<div class="container-lg pt-2 pb-3">
+<div class="container-lg pt-2 pb-3" style="padding: 10px;">
     
     <!--Image and Price section-->
     <div class="row mt-2 align-items-center">
@@ -80,20 +80,20 @@
         {% endif %}
         </div>
         <br>
-        {% for comment in comments %}
-            <div class="row"> 
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h6 class="card-title"><small>posted by:</small> {{ comment.User }}</h4>
-                            <p class="card-text">{{ comment.Comment }}</p>
-                            <p class="card-text"> <small>{{ comment.PostedTime}}</small></p>
-                        </div>
-                    </div>
+        <div class="container">
+            {% for comment in comments %}
+            <div class="row border bg-light py-2 mx-0 mx-md-3 mb-3">
+                <div class="col-6">
+                    <strong>{{ comment.User }}</strong>
                 </div>
-            </div>
-            <br>
-        {% endfor %}
-        
+                <div class="col-6 text-right text-muted">
+                    <small><em>{{ comment.PostedTime }}</em></small>
+                </div>
+                <div class="col-xl-12 pt-1">
+                    {{ comment.Comment }}
+                </div>
+            </div> 
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

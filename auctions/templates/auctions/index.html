@@ -5,12 +5,20 @@
     <div id="container">
     {% for listing in listings %}
         {% if listing.Active == True %}
-        <a href="{% url 'listing' listing.id %}" class="text-decoration-none text-dark"><div class="card" style="width: 18rem;">
-                <img class="card-img-top imgpl" src="{{ listing.Photo }}" alt="Card image of {{ listing.Title }}">
-                <h5 class="card-title center">{{ listing.Title }}</h5>
-                <h6 class="center card-subtitle mb-2 text-muted">{{ listing.currentPrice }} $</h6>
-                <a href="#" class="btn btn-primary">to watchlist</a>
-            </div></a>
+
+        <div class="card m-2 border-bottom" style="width: 20rem;">
+            <a href="{% url 'listing' listing.id %}" class="text-decoration-none text-dark">  
+                <img class="card-img-top" src="{% if listing.Photo %}{{ listing.Photo }}{% else %}http://www.aaru.edu.jo/websites/aaru2/wp-content/plugins/learnpress/assets/images/no-image.png?Mobile=1&Source=%2F%5Flayouts%2Fmobile%2Fdispform%2Easpx%3FList%3D78b536db%252De7c7%252D45d9%252Da661%252Ddb2a2aa2fbaf%26View%3D6efc759a%252D0646%252D433c%252Dab6e%252D2f027ffe0799%26RootFolder%3D%252Fwebsites%252Faaru2%252Fwp%252Dcontent%252Fplugins%252Flearnpress%252Fassets%252Fimages%26ID%3D4786%26CurrentPage%3D1{% endif %}" alt="Photo of {{ listing.title }}">
+                <div class="card-body border-top">
+                    <h5 class="card-title text-truncate">{{ listing.Title }}</h5>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-text p-2" style="text-align:center;"><strong>${{ listing.currentPrice }}</strong></h5>
+                        <span class="p-2">{{listing.numOfBids}} bid(s)</span>
+                    </div>
+                    <p class="card-text text-truncate"><small>{{ listing.Description }}</small></p>
+                </div>
+            </a>
+        </div>
         {% endif %}
         {% empty %}
             <h3>No active listings</h3>

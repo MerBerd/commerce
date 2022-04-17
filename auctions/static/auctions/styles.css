@@ -1,5 +1,31 @@
 body {
-    padding: 10px;
+    margin: 0 auto;
+}
+
+.title {
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+}
+.card-img-top {
+    width: 100%;
+    height: 15rem !important;
+    object-fit: cover;
+}
+
+@media only screen and (min-width: 992px) {
+    
+    .watchlist {
+        padding-left: 4rem;
+    }
+    
+}
+/* Medium screens */
+@media only screen and (min-width : 768px) {
+    .card {
+        display: block !important;
+        width: 15rem !important;
+        flex:none !important;
+    }
 }
 #container {
     display: flex;
@@ -7,25 +33,6 @@ body {
     flex-wrap: wrap;
     width: 90%;
     margin: 0 auto;
-}
-
-#container > div {
-    background-color: white;
-    font-size: 20px;
-    margin: 20px;
-    padding: 20px;
-    width: 200px;
-    height: 350px;
-    
-}
-.imgpl {
-    width: 80%;
-    height: 80%;
-    margin: 0 auto;
-}
-.card {
-    text-align: center;
-    position: relative;
 }
 
 .btn {
@@ -36,16 +43,17 @@ body {
     left: 0;
     bottom:  0;
 } 
+.card {
+    text-align: center;
+    position: relative;
+}
+
 .center {
     position: absolute;
     right:   0;
     left: 0;
     bottom:  45px;
 }
-.card-subtitle {
-    bottom:  30px;
-}
-
 .formdiv
 {
     text-align: center; 
